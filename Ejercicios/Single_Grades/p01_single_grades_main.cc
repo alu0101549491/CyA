@@ -25,17 +25,13 @@
  *  @param[in] argv Vector containing (char*) the parameters
  */
 int main(int argc, char* argv[]) {
-  std::string main_parameter = argv[1];
-  if (argc <= 1) {
-    std::cout << "Modo de empleo: ./p01_single_grades grades.txt" << std::endl;
-    std::cout << "Pruebe 'p01_single_grades --help' para más información" << std::endl;
-    return 0;
-  }
-  if (main_parameter == "--help") {
-    Help();
-    return 0;
+  if (CheckParameters(argc, argv)) {
+    Container grades_register;
+    std::string grades = argv[1];
+    grades_register.ReadTextFile(grades);
+    grades_register.PrintContainerElements();
   }
   else {
-    
+    return 0;
   }
 }

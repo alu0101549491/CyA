@@ -20,5 +20,15 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <map>
 
+class Container {
+ public:
+  void ReadTextFile(const std::string& grades);
+  void PrintContainerElements();
+ private:
+  std::map <std::string, double> container_;
+};
+
+bool CheckParameters(const int& argc, char* argv[]);
 void Help();
