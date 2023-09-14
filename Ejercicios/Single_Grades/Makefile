@@ -13,10 +13,10 @@ CXXFLAGS = -std=c++14 -Wall	 # The C++ compiler options (C++14, and warn all)
 LDFLAGS =						         # The linker options (if any)
 
 # The all target builds all of the programs handled by the makefile.
-all: p01_single_grades_main 
+all: p01_single_grades 
 
-# The p01_single_grades_main target builds the p01_single_grades_main executable.
-p01_single_grades_main: p01_single_grades_main.o
+# The p01_single_grades target builds the p01_single_grades executable.
+p01_single_grades: p01_single_grades.o
 	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
 
 # Indicate that the all and clean targets do not
@@ -25,7 +25,7 @@ p01_single_grades_main: p01_single_grades_main.o
 
 # The following rule is effectively built into make and
 # therefore need not be explicitly specified:
-# p01_single_grades_main.o: p01_single_grades_main.cc
+# p01_single_grades.o: p01_single_grades.cc
 #
 	$(CXX) $(CXXFLAGS) -c $<
 
@@ -33,7 +33,7 @@ p01_single_grades_main: p01_single_grades_main.o
 # and object files produced by the build process
 # We can use it for additional housekeeping purposes
 clean :
-	rm -f p01_single_grades_main *.o
+	rm -f p01_single_grades *.o
 	rm -rf *~ basura* b i
 	rm -rf a.out
 	find . -name '*~' -exec rm {} \;

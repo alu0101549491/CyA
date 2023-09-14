@@ -1,64 +1,55 @@
-#include "p01_single_grades.h"
+// Universidad de La Laguna
+// Escuela Superior de Ingeniería y Tecnología
+// Grado en Ingeniería Informática
+// Asignatura: Computabilidad y Algoritmia
+// Curso: 2º
+// Práctica 1: Contenedores asociativos
+// Autor: Fabián González Lence
+// Correo: alu0101549491@ull.edu.es
+// Fecha: 13/09/2023
+// Archivo p01-single-grades.cc: programa cliente.
+// Contiene la función main del proyecto que usa la clase Container
+// para procesar un fichero de texto con identificadores de alumnos y sus notas
+// Referencias:
+// https://github.com/alu0101549491/CyA-P01
+//
+// Historial de revisiones
+// 13/09/2023 - Creación (primera versión) del código
+// 14/09/2023 - Finalización (última versión) del código
 
-bool CheckParameters(const int& argc, char* argv[]) {
-  if (argc <= 1) {
-    std::cout << "Modo de empleo: ./p01_single_grades grades.txt" << std::endl;
-    std::cout << "Pruebe 'p01_single_grades --help' para más información" << std::endl;
-    return false;
-  }
-  else {
-    std::string main_parameter = argv[1];
-    if (main_parameter == "--help") {
-      Help();
-      return false;
-    }
-    else {
-      return true;
-    }
-  }
-}
+#include "container.h"
+#include "container.cc"
 
-/** @brief Imprime en pantalla una breve guía y explicación sobre el funcionamiento del programa */
-void Help() {
-  std::ifstream input_file{"help.txt"};
-  while (input_file) {
-    std::string text_line;
-    std::getline(input_file, text_line);
-    std::cout << text_line << std::endl;
-  }
-}
-
-void Container::ReadTextFile(const std::string& grades) {
-  std::ifstream input_file{grades};
-  char delimiter = ' ';
-  while (input_file) {
-    std::string text_line, identifier, grade, aux;
-    std::getline(input_file, text_line);
-    if (text_line != "") {
-      for (int i = 0; i <= text_line.size(); ++i) {
-        if (i == text_line.size()) {
-          grade = aux;
+/** @brief Main function
+ *  @param[in] argc Number of command line parameters
+ *  @param[in] argv Vector containing (char*) the parameters
+ */
+int main(int argc, char* argv[]) {
+  if (CheckParameters(argc, argv)) {
+    Container grades_register;
+    std::string grades = argv[1];
+    grades_register.ReadTextFile(grades);
+    grades_register.PrintContainerElements();
+    while (true) {
+      std::cout << "¿Desea añadir otro dato? (y/n): ";
+      char decision;
+      std::cin >> decision;
+      if (decision == 'y') {
+        grades_register.AddNewData();
+        grades_register.PrintContainerElements();
+      }
+      else {
+        if (decision == 'n') {
+          break;
         }
         else {
-          if (text_line[i] != delimiter) {
-            aux += text_line[i];
-          }
-          else {
-            identifier = aux;
-            aux = "";
-          }
+          std::cout << "Opción incorrecta, vuélvalo a intentar." << std::endl;
         }
       }
-      double numeric_grade = std::stod(grade);
-      container_[identifier] = numeric_grade;
     }
+    return 0;
   }
-}
-
-void Container::PrintContainerElements() {
-  std::map<std::string, double>::iterator i = container_.begin();
-  while (i != container_.end()) {
-    std::cout << i->first << " " << i->second << std::endl;
-    ++i; 
+  else {
+    return 1;
   }
 }

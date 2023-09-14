@@ -7,14 +7,16 @@
 // Autor: Fabián González Lence
 // Correo: alu0101549491@ull.edu.es
 // Fecha: 13/09/2023
-// Archivo P01-single-grades.cc: programa cliente.
-// Contiene la clase Contenedor y la declaración de las funciones del programa
-// para ... (indicar brevemente el objetivo)
+// Archivo container.h: programa cliente.
+// Contiene la clase Container y la declaración de las funciones del programa
+// para almacenar a través de un mapa ordenado una serie de datos relacionados
+// al identificador de un alumno y su nota final
 // Referencias:
 // https://github.com/alu0101549491/CyA-P01
 //
 // Historial de revisiones
 // 13/09/2023 - Creación (primera versión) del código
+// 14/09/2023 - Finalización (última versión) del código
 
 #pragma once
 #include <iostream>
@@ -26,6 +28,7 @@ class Container {
  public:
   void ReadTextFile(const std::string& grades);
   void PrintContainerElements();
+  void AddNewData();
  private:
   std::map <std::string, double> container_;
 };
