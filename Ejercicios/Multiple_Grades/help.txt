@@ -1,0 +1,11 @@
+Este programa se encarga de procesar archivos de texto plano que contengan
+las notas asociadas a un alumno tras un registro de exámenes, guardandose
+la nota más alta como nota definitiva del alumno.
+
+El archivo de texto a procesar debe tener el siguiente formato:
+aluXXXXXXXXXX X.XX 
+
+Ejemplo:
+alu0122334455 5.25
+alu0101010101 4.75
+alu0198765432 8.5
