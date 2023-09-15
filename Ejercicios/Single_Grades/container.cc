@@ -83,7 +83,9 @@ void Container::ReadTextFile(const std::string& grades) {
         }
       }
       double numeric_grade = std::stod(grade);
-      container_[identifier] = numeric_grade;
+      if (container_[identifier] < numeric_grade) {
+        container_[identifier] = numeric_grade;
+      }
     }
   }
 }
@@ -92,7 +94,7 @@ void Container::ReadTextFile(const std::string& grades) {
 void Container::PrintContainerElements() {
   std::map <std::string, double>::iterator i = container_.begin();
   while (i != container_.end()) {
-    std::cout << i->first << " " << i->second << std::endl;
+    std::cout << i -> first << " " << i -> second << std::endl;
     ++i; 
   }
 }
