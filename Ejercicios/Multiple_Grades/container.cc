@@ -83,28 +83,33 @@ void Container::ReadTextFile(const std::string& grades) {
         }
       }
       double numeric_grade = std::stod(grade);
-      container_[identifier].push_back(numeric_grade);
+      container_.insert(std::pair<std::string, double>(identifier, numeric_grade));
     }
   }
 }
 
 /** @brief Imprime los elementos del mapa de datos de la clase Container */
 void Container::PrintContainerElements() {
-  std::map <std::string, std::vector<double>>::iterator i = container_.begin();
+  std::multimap <std::string, double>::iterator i = container_.begin();
+  std::string current_key;
+  bool first_value = true;
   while (i != container_.end()) {
-    std::string identifier {i -> first};
-    std::vector <double> value_list {i -> second};
-    std::cout << identifier << ": ";
-    for (int j = 0; j < value_list.size(); ++j) {
-      if (j == value_list.size() - 1) {
-        std::cout << value_list[j] << std::endl;
+    if (i -> first != current_key) {
+      if (!first_value) {
+        std::cout << std::endl;
       }
-      else {
-        std::cout << value_list[j] << " ";
-      }
+      std::cout << i -> first << ": ";
+      current_key = i -> first;
+      first_value = true;
     }
-    ++i; 
+    else {
+      std::cout << " ";
+    }
+    std::cout << i -> second;
+    first_value = false;
+    ++i;
   }
+  std::cout << std::endl;
 }
 
 /** @brief Permite añadir un nuevo dato al mapa de datos de la clase Container */
@@ -115,5 +120,5 @@ void Container::AddNewData() {
   std::cin >> identifier;
   std::cout << "Introduzca la nota del alumno: ";
   std::cin >> grade;
-  container_[identifier].push_back(grade);
+  container_.insert(std::pair<std::string, double>(identifier, grade));
 }

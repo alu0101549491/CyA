@@ -31,7 +31,7 @@ class Container {
   void PrintContainerElements();
   void AddNewData();
  private:
-  std::map <std::string, std::vector<double>> container_;
+  std::multimap <std::string, double> container_;
 };
 
 bool CheckParameters(const int& argc, char* argv[]);
