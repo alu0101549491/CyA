@@ -6,7 +6,7 @@
 // Práctica 1: Contenedores asociativos
 // Autor: Fabián González Lence
 // Correo: alu0101549491@ull.edu.es
-// Fecha: 13/09/2023
+// Fecha: 15/09/2023
 // Archivo container.cc: programa cliente.
 // Contiene las definiciones de las funciones y métodos declarados en container.h
 // Referencias:

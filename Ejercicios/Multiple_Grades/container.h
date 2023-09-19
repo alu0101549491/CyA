@@ -6,7 +6,7 @@
 // Práctica 1: Contenedores asociativos
 // Autor: Fabián González Lence
 // Correo: alu0101549491@ull.edu.es
-// Fecha: 13/09/2023
+// Fecha: 15/09/2023
 // Archivo container.h: programa cliente.
 // Contiene la clase Container y la declaración de las funciones del programa
 // para almacenar a través de un mapa ordenado una serie de datos relacionados
@@ -21,7 +21,6 @@
 #pragma once
 #include <iostream>
 #include <fstream>
-#include <vector>
 #include <string>
 #include <map>
 
