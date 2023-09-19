@@ -92,11 +92,16 @@ void Container::ReadTextFile(const std::string& grades) {
 void Container::PrintContainerElements() {
   std::multimap <std::string, double>::iterator i = container_.begin();
   std::string current_key;
+  int number_of_elements{0};
+  double sum_of_elements{0};
   bool first_value = true;
   while (i != container_.end()) {
     if (i -> first != current_key) {
       if (!first_value) {
-        std::cout << std::endl;
+        double average_grades = sum_of_elements / number_of_elements;
+        std::cout << " // " << average_grades << std::endl;
+        sum_of_elements = 0;
+        number_of_elements = 0;
       }
       std::cout << i -> first << ": ";
       current_key = i -> first;
@@ -106,10 +111,13 @@ void Container::PrintContainerElements() {
       std::cout << " ";
     }
     std::cout << i -> second;
+    sum_of_elements += i -> second;
+    ++number_of_elements;
     first_value = false;
     ++i;
   }
-  std::cout << std::endl;
+  double average_grades = sum_of_elements / number_of_elements;
+  std::cout << " // " << average_grades << std::endl;
 }
 
 /** @brief Permite añadir un nuevo dato al mapa de datos de la clase Container */
