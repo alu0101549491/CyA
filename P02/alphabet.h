@@ -22,6 +22,7 @@
 
 class Alphabet {
  public:
+  std::set <Symbols> GetAlphabet() { return alphabet_; }
   void Insert(const Symbols& symbols);
   void Write();
  private:

@@ -21,7 +21,29 @@ Symbols::Symbols(std::string cadena) {
   for (unsigned i = 0; i < cadena.length(); ++i) {
     symbols_.insert(cadena[i]);
   }
-  for (auto i : symbols_) {
-    std::cout << i << std::endl;
+}
+
+bool operator<(Symbols symbols_1, Symbols symbols_2) {
+  if (symbols_1.GetSymbols().size() < symbols_2.GetSymbols().size()) {
+    return true;
   }
+  else {
+    return false;
+  }
+}
+
+
+std::ostream& operator<<(std::ostream& output, Symbols& symbols) {
+  output << "{";
+  auto symbolList = symbols.GetSymbols();
+  if (!symbolList.empty()) {
+    auto it = symbolList.begin();
+    output << *it;
+    ++it;
+    for (it; it != symbolList.end(); ++it) {
+      output << ", " << *it;
+    }
+  }
+  output << "}";
+  return output;
 }

@@ -70,30 +70,41 @@ int main(int argc, char* argv[]) {
   if (CheckParameters(argc, argv)) {
     std::string input_file = argv[1];
     std::string output_file = argv[2];
+    std::ofstream output {output_file};
     Strings strings_register(input_file, output_file);
     std::cin >> strings_register;
+    std::cout << strings_register;
     switch (std::stoi(argv[3])) {
       case 1: {
         Alphabet alphabets;
         for (auto it : strings_register.GetStringsSet()) {
           Symbols symbols_of_string{it};
           alphabets.Insert(symbols_of_string);
-          std::ofstream output {output_file};
-          output << "{";
-          //for (auto j : )
+        }
+        for (auto j : alphabets.GetAlphabet()) {
+          output << j << std::endl;
         }
         break;
       }
       case 2: {
-        
+        std::unordered_set<int> length = strings_register.Length();
+        for (auto i : length) {
+          output << i << std::endl;
+        }
         break;
       }
       case 3: {
-        
+        std::unordered_set<std::string> inverse_strings = strings_register.Inverse();
+        for (auto i : inverse_strings) {
+          output << i << std::endl;
+        }
         break;
       }
       case 4: {
-        
+        std::set<Strings> prefixes = strings_register.Prefixes();
+        for (auto i : prefixes) {
+          std::cout << i << std::endl;
+        }
         break;
       }
       case 5: {
@@ -104,7 +115,6 @@ int main(int argc, char* argv[]) {
         std::cout << "La opción elegida no es correcta" << std::endl;
         return 1;
     }
-    std::cout << strings_register;
     return 0;
   }
   else {

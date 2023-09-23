@@ -19,21 +19,31 @@
 #pragma once
 #include <iostream>
 #include <fstream>
+#include <algorithm>
 #include <string>
 #include <set>
+#include <unordered_set>
 
 class Strings {
  public:
   Strings(const std::string& input_file, const std::string& output_file);
-  std::set<std::string> GetStringsSet() { return strings_; }
+  std::unordered_set<std::string> GetStringsSet() { return strings_; }
   std::string GetInputFile() { return input_file_; }
   std::string GetOutputFile() { return output_file_; }
+  std::unordered_set<int> Length();
+  std::unordered_set<std::string> Inverse();
+  std::set<Strings> Prefixes();
+  std::set<Strings> Suffixes();
   void Read();
   void Write();
+  friend bool operator<(Strings symbols_1, Strings symbols_2);
   friend std::istream& operator>>(std::istream& input, Strings& strings_register);
   friend std::ostream& operator<<(std::ostream& output, Strings& strings_register);
  private:
-  std::set<std::string> strings_;
+  std::unordered_set<std::string> strings_;
   std::string input_file_;
   std::string output_file_;
 };
+bool operator<(Strings symbols_1, Strings symbols_2);
+std::istream& operator>>(std::istream& input, Strings& strings_register);
+std::ostream& operator<<(std::ostream& output, Strings& strings_register);

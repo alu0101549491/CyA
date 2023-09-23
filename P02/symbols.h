@@ -22,12 +22,15 @@
 class Symbols {
  public:
   Symbols(std::string cadena);
-  void Read();
-  void Write();
+  std::set <char> GetSymbols() { return symbols_; }
+  friend bool operator<(Symbols symbols_1, Symbols symbols_2);
+  friend bool operator!=(Symbols symbols_1, Symbols symbols_2);
+  friend std::ostream& operator<<(std::ostream& output, Symbols& symbols);
  private:
   std::set <char> symbols_;
 };
 
-Symbols operator<(Symbols symbols_1, Symbols symbols_2) {
-  
-}
+bool operator<(Symbols symbols_1, Symbols symbols_2);
+bool operator!=(Symbols symbols_1, Symbols symbols_2);
+std::ostream& operator<<(std::ostream& output, Symbols& symbols);
+
