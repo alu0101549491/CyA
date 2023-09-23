@@ -24,16 +24,12 @@
 
 class Strings {
  public:
-  Strings(const std::string& input_file, const std::string& output_file) { input_file_ = input_file; output_file_ = output_file; }
+  Strings(const std::string& input_file, const std::string& output_file);
+  std::set<std::string> GetStringsSet() { return strings_; }
   std::string GetInputFile() { return input_file_; }
   std::string GetOutputFile() { return output_file_; }
-  void ReadFile(const std::string& file);
-  void WriteFile(const std::string& file);
-  Strings MakeAlphabet();
-  Strings MakeLength();
-  Strings MakeInverse();
-  Strings MakePrefixes();
-  Strings MakeSuffixes();
+  void Read();
+  void Write();
   friend std::istream& operator>>(std::istream& input, Strings& strings_register);
   friend std::ostream& operator<<(std::ostream& output, Strings& strings_register);
  private:
@@ -41,14 +37,3 @@ class Strings {
   std::string input_file_;
   std::string output_file_;
 };
-
-std::istream& operator>>(std::istream& input, Strings& strings_register) {
-  strings_register.ReadFile(strings_register.GetInputFile());
-}
-
-std::ostream& operator<<(std::ostream& output, Strings& strings_register) {
-  strings_register.WriteFile(strings_register.GetOutputFile());
-}
-
-bool CheckParameters(const int& argc, char* argv[]);
-void Help();

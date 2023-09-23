@@ -17,84 +17,30 @@
 
 #include "strings.h"
 
-/** @brief Revisa que los parámetros introducidos al programa funcionen correctamente y no generen errores
-  * @param[in] argc. Número de parámetros pasados al programa a través de la terminal
-  * @param[in] argv. Vector de char* que contiene los parámetros pasados al programa
-  * @return Valor booleano que determina si el parámetro que se le pasó al programa es correcto y se puede proseguir
-  */
-bool CheckParameters(const int& argc, char* argv[]) {
-  if (argc < 4 || argc > 4) {
-    std::string input_file = argv[1];
-    if (input_file == "--help") {
-      Help();
-      return false;
-    }
-    else {
-      std::cout << "Modo de empleo: ./p02_strings filein.txt fileout.txt opcode" << std::endl;
-      std::cout << "Pruebe './p02_strings --help' para más información" << std::endl;
-      return false;
-    }
-  }
-  else {
-    std::ifstream input{std::string{argv[1]}};
-    std::ofstream output{std::string{argv[2]}};
-    std::string opcode = argv[3];
-    if (input.fail() || output.fail()) {
-      std::cout << "No se ha encontrado el fichero introducido" << std::endl;
-      return false;
-    }
-    else {
-      return true;
-    }
-  }
+Strings::Strings(const std::string& input_file, const std::string& output_file) { 
+  input_file_ = input_file; 
+  output_file_ = output_file; 
 }
 
-/** @brief Imprime en pantalla una breve guía y explicación sobre el funcionamiento del programa */
-void Help() {
-  std::ifstream input_file{"help.txt"};
-  while (input_file) {
-    std::string text_line;
-    std::getline(input_file, text_line);
-    std::cout << text_line << std::endl;
-  }
-}
-
-void Strings::ReadFile(const std::string& file) {
-  std::ifstream input_file{file};
+void Strings::Read() {
+  std::ifstream input_file{GetInputFile()};
   while (input_file) {
     std::string text_string;
     std::getline(input_file, text_string);
-    strings_.insert(text_string);
-  }
-  for (auto i : strings_) {
-    std::cout << i << std::endl;
-  }
-}
-
-void Strings::WriteFile(const std::string& file) {
-  
-}
-
-Strings Strings::MakeAlphabet() {
-  for (auto i : strings_) {
-    for (unsigned j = 0; j < i.size(); ++j) {
-      i[j];
+    if (text_string != "") {
+      strings_.insert(text_string);
     }
   }
 }
 
-Strings Strings::MakeLength() {
-
+void Strings::Write() {
+  
 }
 
-Strings Strings::MakeInverse() {
-
+std::istream& operator>>(std::istream& input, Strings& strings_register) {
+  strings_register.Read();
 }
 
-Strings Strings::MakePrefixes() {
-
-}
-
-Strings Strings::MakeSuffixes() {
-
+std::ostream& operator<<(std::ostream& output, Strings& strings_register) {
+  strings_register.Write();
 }

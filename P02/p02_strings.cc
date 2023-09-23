@@ -19,6 +19,52 @@
 
 #include "strings.h"
 #include "strings.cc"
+#include "symbols.h"
+#include "symbols.cc"
+#include "alphabet.h"
+#include "alphabet.cc"
+
+/** @brief Imprime en pantalla una breve guía y explicación sobre el funcionamiento del programa */
+void Help() {
+  std::ifstream input_file{"help.txt"};
+  while (input_file) {
+    std::string text_line;
+    std::getline(input_file, text_line);
+    std::cout << text_line << std::endl;
+  }
+}
+
+/** @brief Revisa que los parámetros introducidos al programa funcionen correctamente y no generen errores
+  * @param[in] argc. Número de parámetros pasados al programa a través de la terminal
+  * @param[in] argv. Vector de char* que contiene los parámetros pasados al programa
+  * @return Valor booleano que determina si el parámetro que se le pasó al programa es correcto y se puede proseguir
+  */
+bool CheckParameters(const int& argc, char* argv[]) {
+  if (argc < 4 || argc > 4) {
+    std::string input_file = argv[1];
+    if (input_file == "--help") {
+      Help();
+      return false;
+    }
+    else {
+      std::cout << "Modo de empleo: ./p02_strings filein.txt fileout.txt opcode" << std::endl;
+      std::cout << "Pruebe './p02_strings --help' para más información" << std::endl;
+      return false;
+    }
+  }
+  else {
+    std::ifstream input{std::string{argv[1]}};
+    std::ofstream output{std::string{argv[2]}};
+    std::string opcode = argv[3];
+    if (input.fail() || output.fail()) {
+      std::cout << "No se ha encontrado el fichero introducido" << std::endl;
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
+}
 
 int main(int argc, char* argv[]) {
   if (CheckParameters(argc, argv)) {
@@ -27,21 +73,33 @@ int main(int argc, char* argv[]) {
     Strings strings_register(input_file, output_file);
     std::cin >> strings_register;
     switch (std::stoi(argv[3])) {
-      case 1:
-        strings_register.MakeAlphabet();
+      case 1: {
+        Alphabet alphabets;
+        for (auto it : strings_register.GetStringsSet()) {
+          Symbols symbols_of_string{it};
+          alphabets.Insert(symbols_of_string);
+          std::ofstream output {output_file};
+          output << "{";
+          //for (auto j : )
+        }
         break;
-      case 2:
-        strings_register.MakeLength();
+      }
+      case 2: {
+        
         break;
-      case 3:
-        strings_register.MakeInverse();
+      }
+      case 3: {
+        
         break;
-      case 4:
-        strings_register.MakePrefixes();
+      }
+      case 4: {
+        
         break;
-      case 5:
-        strings_register.MakeSuffixes();
+      }
+      case 5: {
+        
         break;
+      }
       default:
         std::cout << "La opción elegida no es correcta" << std::endl;
         return 1;
