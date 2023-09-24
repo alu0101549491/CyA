@@ -63,18 +63,39 @@ bool CheckParameters(const int& argc, char* argv[]) {
   }
 }
 
+/** @brief Función que se encarga de imprimir un lenguaje con el formato de llaves y comas ({&, a, ab, abb})
+  * @note Intenté hacer esta función como un método de la clase pero el compilador me saltaba errores con
+  * el operador<< de la clase String al intentar imprimir "i", lo cual no le encontré mucho sentido, ya que
+  * "i" era un const String y la sobrecarga del operador debería encargarse de ello, pero no fue el caso aparentemente.
+  * @param[in] output. Flujo de salida de la impresión
+  * @param[in] my_language. El lenguaje que se va a iterar para imprimir cada una de sus cadenas
+  */
+void WriteLanguage(std::ostream& output, Language my_language) {
+  output << "{&, ";
+  int counter = 0;
+  for (auto i : my_language.GetLanguage()) {
+    output << i;
+    if (counter != my_language.LanguageSize() - 1) {
+      output << ", ";
+    }
+    counter++;
+  }
+  output << "}" << std::endl;
+}
+
+/** @brief Main function
+ *  @param[in] argc Number of command line parameters
+ *  @param[in] argv Vector containing (char*) the parameters
+ */
 int main(int argc, char* argv[]) {
   if (CheckParameters(argc, argv)) {
-    std::string input_file = argv[1];
-    std::string output_file = argv[2];
-    std::ofstream output {output_file};
-    std::ifstream input {input_file};
+    std::ifstream input{std::string(argv[1])};
+    std::ofstream output{std::string(argv[2])};
     while (input) {
-      String my_string{""};
       std::string text_line;  
       std::getline(input, text_line);
       if (!text_line.empty()) {
-        my_string.SetString(text_line);
+        String my_string{text_line};
         switch (std::stoi(argv[3])) {
           case 1: {
             Alphabet alphabet = my_string.CreateAlphabet();
@@ -93,21 +114,12 @@ int main(int argc, char* argv[]) {
           }
           case 4: {
             Language prefixes = my_string.Prefixes();
-            output << "{";
-            int counter = 0;
-            for (auto i : prefixes.GetLanguage()) {
-              output << i;
-              if (counter != prefixes.LanguageSize() - 1) {
-                output << ", ";
-              }
-              counter++;
-            }
-            output << "}" << std::endl;
+            WriteLanguage(output, prefixes);
             break;
           }
           case 5: {
             Language suffixes = my_string.Suffixes();
-            suffixes.Write(output);
+            WriteLanguage(output, suffixes);
             break;
           }
           default:

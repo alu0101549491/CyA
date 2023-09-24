@@ -17,6 +17,37 @@
 
 #include "string.h"
 
+/** @brief Constructor de la clase String
+  * @param[in] string. Parámetro de tipo std::string que se va a asignar al atributo principal de la clase
+  */
+String::String(std::string string) { 
+  string_ = string;
+}
+
+/** @brief Getter de la clase String
+  * @return Devuelve el valor de el atributo principal de la clase como un std::string
+  */
+std::string String::GetString() const { 
+  return string_;
+}
+
+/** @brief Se encarga de añadir simbolos y/o subcadenas a la cadena atributo de la clase String
+  * @param[in] string. Cadena que se va a añadir al atributo de la clase
+  */
+void String::Insert(std::string string) {
+  string_ += string;
+}
+
+/** @brief Se encarga de analizar la longitud de la cadena del atributo principal de la clase
+  * @return Devuelve el valor de la longitud de la String como un int
+  */
+int String::GetLength() { 
+  return string_.length();
+}
+
+/** @brief Se encarga de crear el alfabeto de la cadena atributo de la clase
+  * @return Devuelve el alfabeto como tipo Alphabet
+  */
 Alphabet String::CreateAlphabet() {
   std::set<char> aux_set;
   for (auto i : GetString()) {
@@ -26,6 +57,9 @@ Alphabet String::CreateAlphabet() {
   return alphabet;
 }
 
+/** @brief Se encarga de crear el inverso de la cadena atributo de la clase
+  * @return Devuelve la cadena inversa como tipo String
+  */
 String String::InverseString() {
   std::string inverted_string = string_;
   std::reverse(inverted_string.begin(), inverted_string.end());
@@ -33,11 +67,14 @@ String String::InverseString() {
   return inverted;
 }
 
+/** @brief Se encarga de crear los prefijos de la cadena atributo de la clase
+  * @return Devuelve la lista de prefijos como tipo Language
+  */
 Language String::Prefixes() {
   std::set<String> prefixes_set;
   String substring{""};
-  prefixes_set.insert(String("&"));
-  for (unsigned i = 0; i < string_.length(); ++i) {
+  //prefixes_set.insert(String("&"));
+  for (int i = 0; i < string_.length(); ++i) {
     substring.Insert(std::string(1,string_[i]));
     prefixes_set.insert(substring);
   }
@@ -45,6 +82,9 @@ Language String::Prefixes() {
   return prefixes;
 }
 
+/** @brief Se encarga de crear los sufijos de la cadena atributo de la clase
+  * @return Devuelve la lista de sufijos como tipo Language
+  */
 Language String::Suffixes() {
   std::set<String> suffixes_set;
   String substring{""};
@@ -52,15 +92,34 @@ Language String::Suffixes() {
     substring.Insert(std::string(1,string_[i]));
     suffixes_set.insert(substring.InverseString());
   }
-  suffixes_set.insert(String("&"));
+  //suffixes_set.insert(String("&"));
   Language suffixes{suffixes_set};
   return suffixes;
 }
 
+/** @brief Sobrecarga del operador de comparación "<"
+  * @param[in] string_1. Primera cadena de la comparación
+  * @param[in] string_2. Segunda cadena de la comparación
+  * @return Devuelve el valor booleano de la comparación
+  */
 bool operator<(String string_1, String string_2) {
   return string_1.GetLength() < string_2.GetLength();
 }
 
+/** @brief Sobrecarga del operador de comparación "=="
+  * @param[in] string_1. Primera cadena de la comparación
+  * @param[in] string_2. Segunda cadena de la comparación
+  * @return Devuelve el valor booleano de la comparación
+  */
+bool operator==(String string_1, String string_2) {
+  return string_1.GetString().length() == string_2.GetString().length();
+}
+
+/** @brief Sobrecarga del operador de inserción
+  * @param[in] input. Flujo de entrada
+  * @param[in] string. Cadena tipo String donde se va a guardar la entrada
+  * @return Devuelve el flujo de entrada dado a la función
+  */
 std::ifstream& operator>>(std::ifstream& input, String string) {
   std::string text_line;
   std::getline(input, text_line);
@@ -74,6 +133,11 @@ std::ifstream& operator>>(std::ifstream& input, String string) {
   return input;
 }
 
+/** @brief Sobrecarga del operador de extracción
+  * @param[in] output. Flujo de salida
+  * @param[in] string. Cadena tipo String que se va a extraer
+  * @return Devuelve el flujo de salida dado a la función
+  */
 std::ostream& operator<<(std::ostream& output, const String& string) {
   output << string.GetString();
   return output;

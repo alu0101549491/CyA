@@ -22,23 +22,21 @@
 class String;
 class Language {
  public:
-  Language(std::set<String> language) { language_ = language; }
-  int LanguageSize() { return language_.size(); }
-  void Write(std::ostream& output);
-  std::set<String> GetLanguage() { return language_; }
+  Language(std::set<String> language);
+  int LanguageSize();
+  std::set<String> GetLanguage();
  private:
   std::set<String> language_;
 };
 
-void Language::Write(std::ostream& output) {
-  output << "{";
-  int counter = 0;
-  for (auto i : GetLanguage()) {
-    output << i;
-    if (counter != LanguageSize() - 1) {
-      output << ", ";
-    }
-    counter++;
-  }
-  output << "}" << std::endl;
+Language::Language(std::set<String> language) {
+  language_ = language; 
+}
+
+int Language::LanguageSize() { 
+  return language_.size(); 
+}
+
+std::set<String> Language::GetLanguage() {
+  return language_;
 }

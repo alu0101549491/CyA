@@ -29,16 +29,15 @@
 
 class String {
  public:
-  String(std::string string) { string_ = string; }
-  std::string GetString() const { return string_; }
-  void SetString(std::string string) { string_ = string; }
-  void Insert(std::string string) { string_ += string; }
+  String(std::string string);
+  std::string GetString() const;
+  void Insert(std::string string);
   Alphabet CreateAlphabet();
-  int GetLength() { return string_.length(); }
+  int GetLength();
   String InverseString();
   Language Prefixes();
   Language Suffixes();
-  //friend bool operator<(String string_1, String string_2);
+  friend bool operator<(String string_1, String string_2);
   friend bool operator==(String string_1, String string_2);
   friend std::ifstream& operator>>(std::ifstream& input, String string);
   friend std::ostream& operator<<(std::ostream& output, const String& string);
@@ -46,10 +45,7 @@ class String {
   std::string string_;
 };
 
-//bool operator<(String string_1, String string_2);
-bool operator==(String string_1, String string_2) {
-  return string_1.GetString().size() == string_2.GetString().size();
-}
-
+bool operator==(String string_1, String string_2);
+bool operator<(String string_1, String string_2);
 std::ifstream& operator>>(std::ifstream& input, String string);
 std::ostream& operator<<(std::ostream& output, const String& string);
