@@ -1,0 +1,16 @@
+Este programa se encarga de procesar archivos de texto que contengan
+cadenas de texto separadas por linea. Ejemplo:
+
+ababbab
+1234567
+holamundo
+
+El programa se deberá ejecutar de la siguiente manera:
+./p02_strings filein.txt fileout.txt opcode
+
+Teniendo en "opcode" las siguientes opciones:
+1 -> alfabeto
+2 -> longitud
+3 -> inversa
+4 -> prefijos
+5 -> sufijos
