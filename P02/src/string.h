@@ -20,6 +20,7 @@
 #include <iostream>
 #include <fstream>
 #include <algorithm>
+#include <vector>
 #include <string>
 #include <set>
 #include <unordered_set>
@@ -38,6 +39,7 @@ class String {
   void Read();
   void Write();*/
   //friend bool operator<(String string_1, String string_2);
+  friend bool operator==(String string_1, String string_2);
   friend std::ifstream& operator>>(std::ifstream& input, String string);
   friend std::ostream& operator<<(std::ostream& output, String string);
  private:
@@ -45,5 +47,8 @@ class String {
 };
 
 //bool operator<(String string_1, String string_2);
+bool operator==(String string_1, String string_2) {
+  return string_1.GetString().size() == string_2.GetString().size();
+}
 std::ifstream& operator>>(std::ifstream& input, String string);
 std::ostream& operator<<(std::ostream& output, String string);

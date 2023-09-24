@@ -66,6 +66,7 @@ bool CheckParameters(const int& argc, char* argv[]) {
 void PrintToFile(std::set<Symbol> set_to_print, std::ostream& output) {
   output << "{";
   if (!set_to_print.empty()) {
+    std::cout << "no ta vacio ";
     auto it = set_to_print.begin();
     output << *it;
     ++it;
@@ -77,19 +78,18 @@ void PrintToFile(std::set<Symbol> set_to_print, std::ostream& output) {
   output << "}" << std::endl;
 }
 
-std::unordered_set<String> ReadFile(std::unordered_set<String> strings, std::ifstream& input) {
-  while (input) {
-    std::string text_string;
-    std::getline(input, text_string);
-    if (text_string != "") {
+std::vector<String> ReadFile(std::ifstream& input) {
+  std::vector<String> strings;
+  std::string text_string;
+  while (std::getline(input, text_string)) {
+    if (!text_string.empty()) {
       String string;
-      for (int i = 0; i < text_string.length(); ++i) {
-        std::string aux;
-        aux += text_string[i];
-        Symbol symbol(text_string);
+      for (auto i : text_string) {
+        std::string aux(1, i);
+        Symbol symbol(aux);
         string.GetString().insert(symbol);
       }
-      strings.insert(string);
+      strings.push_back(string);
     }
   }
   return strings;
@@ -101,12 +101,16 @@ int main(int argc, char* argv[]) {
     std::string output_file = argv[2];
     std::ofstream output {output_file};
     std::ifstream input {input_file};
-    std::unordered_set<String> strings = ReadFile(strings, input);
-    for (auto string : strings) {
+    std::vector<String> strings = ReadFile(input);
+    for (int i = 0; i < strings.size(); ++i) {
       switch (std::stoi(argv[3])) {
         case 1: {
-          std::set<Symbol> alphabet = string.GetAlphabet();
-          PrintToFile(alphabet, output);
+          //std::set<Symbol> alphabet = string.GetAlphabet();
+          for (auto j : strings[i].GetString()) {
+            std::cout << j;
+          }
+          std::cout << std::endl;
+          //PrintToFile(strings[i].GetString(), output);
           break;
         }
         case 2: {
