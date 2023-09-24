@@ -17,62 +17,50 @@
 
 #include "string.h"
 
-
-std::set<Symbol> String::GetAlphabet() {
-  std::set<Symbol> alphabet;
+Alphabet String::CreateAlphabet() {
+  std::set<char> aux_set;
   for (auto i : GetString()) {
-    std::string aux;
-    aux += i.GetSymbol();
-    alphabet.insert(aux);
+    aux_set.insert(i);
   }
+  Alphabet alphabet{aux_set};
   return alphabet;
 }
-/*
-std::unordered_set<int> String::Length() {
-  std::unordered_set<int> length;
-  for (auto i : GetStringSet()) {
-    int counter{0};
-    for (unsigned j = 0; j < i.length(); ++j) {
-      counter++;
-    }
-    length.insert(counter);
-  }
-  return length;
+
+String String::InverseString() {
+  std::string inverted_string = string_;
+  std::reverse(inverted_string.begin(), inverted_string.end());
+  String inverted{inverted_string};
+  return inverted;
 }
 
-std::string String::Inverse(std::string string) {
-  std::reverse(string.begin(), string.end());
-  return string;
-}
-
-std::set<std::string> String::Prefixes(const std::string& string) {
-  std::set<std::string> prefixes;
-  std::string substring = "";
-  prefixes.insert("&");
-  for (unsigned i = 0; i < string.length(); ++i) {
-    substring += string[i];
-    prefixes.insert(substring);
+Language String::Prefixes() {
+  std::set<String> prefixes_set;
+  String substring{""};
+  prefixes_set.insert(String("&"));
+  for (unsigned i = 0; i < string_.length(); ++i) {
+    substring.Insert(std::string(1,string_[i]));
+    prefixes_set.insert(substring);
   }
+  Language prefixes{prefixes_set};
   return prefixes;
 }
 
-std::set<std::string> String::Suffixes(const std::string& string) {
-  std::set<std::string> suffixes;
-  std::string substring = "";
-  for (int i = string.length() - 1; i >= 0; --i) {
-    substring += string[i];
-    suffixes.insert(Inverse(substring));
+Language String::Suffixes() {
+  std::set<String> suffixes_set;
+  String substring{""};
+  for (int i = GetLength() - 1; i >= 0; --i) {
+    substring.Insert(std::string(1,string_[i]));
+    suffixes_set.insert(substring.InverseString());
   }
-  suffixes.insert("&");
+  suffixes_set.insert(String("&"));
+  Language suffixes{suffixes_set};
   return suffixes;
 }
 
-
-
 bool operator<(String string_1, String string_2) {
-  
+  return string_1.GetLength() < string_2.GetLength();
 }
-*/
+
 std::ifstream& operator>>(std::ifstream& input, String string) {
   std::string text_line;
   std::getline(input, text_line);
@@ -80,15 +68,13 @@ std::ifstream& operator>>(std::ifstream& input, String string) {
     for (unsigned i = 0; i < text_line.length(); ++i) {
       std::string character;
       character += text_line[i];
-      Symbol symbol = character;
-      string.GetString().insert(symbol);
+      string.string_ += character;
     }
   }
   return input;
 }
 
-std::ostream& operator<<(std::ostream& output, String string) {
-  for (auto i : string.GetString()) {
-    output << i;
-  }
+std::ostream& operator<<(std::ostream& output, const String& string) {
+  output << string.GetString();
+  return output;
 }

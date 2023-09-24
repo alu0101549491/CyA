@@ -24,31 +24,32 @@
 #include <string>
 #include <set>
 #include <unordered_set>
-#include "symbol.h"
+#include "language.h"
+#include "alphabet.h"
 
 class String {
  public:
-  std::set<Symbol> GetString() { return string_; }
-  void SetString(std::set<Symbol> string) { string_ = string; }
-  std::set<Symbol> GetAlphabet();
-  /*std::set<std::string> Alphabet();
-  int Length();
-  std::string Inverse();
-  std::set<std::string> Prefixes();
-  std::set<std::string> Suffixes();
-  void Read();
-  void Write();*/
+  String(std::string string) { string_ = string; }
+  std::string GetString() const { return string_; }
+  void SetString(std::string string) { string_ = string; }
+  void Insert(std::string string) { string_ += string; }
+  Alphabet CreateAlphabet();
+  int GetLength() { return string_.length(); }
+  String InverseString();
+  Language Prefixes();
+  Language Suffixes();
   //friend bool operator<(String string_1, String string_2);
   friend bool operator==(String string_1, String string_2);
   friend std::ifstream& operator>>(std::ifstream& input, String string);
-  friend std::ostream& operator<<(std::ostream& output, String string);
+  friend std::ostream& operator<<(std::ostream& output, const String& string);
  private:
-  std::set<Symbol> string_;
+  std::string string_;
 };
 
 //bool operator<(String string_1, String string_2);
 bool operator==(String string_1, String string_2) {
   return string_1.GetString().size() == string_2.GetString().size();
 }
+
 std::ifstream& operator>>(std::ifstream& input, String string);
-std::ostream& operator<<(std::ostream& output, String string);
+std::ostream& operator<<(std::ostream& output, const String& string);

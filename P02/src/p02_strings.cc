@@ -18,8 +18,8 @@
 // 21/09/2023 - Creación (primera versión) del código
 
 #include "string.h"
-#include "symbol.h"
 #include "string.cc"
+#include "alphabet.h"
 
 /** @brief Imprime en pantalla una breve guía y explicación sobre el funcionamiento del programa */
 void Help() {
@@ -63,74 +63,57 @@ bool CheckParameters(const int& argc, char* argv[]) {
   }
 }
 
-void PrintToFile(std::set<Symbol> set_to_print, std::ostream& output) {
-  output << "{";
-  if (!set_to_print.empty()) {
-    std::cout << "no ta vacio ";
-    auto it = set_to_print.begin();
-    output << *it;
-    ++it;
-    for (it; it != set_to_print.end(); ++it) {
-      output << ", ";
-      output << *it;
-    }
-  }
-  output << "}" << std::endl;
-}
-
-std::vector<String> ReadFile(std::ifstream& input) {
-  std::vector<String> strings;
-  std::string text_string;
-  while (std::getline(input, text_string)) {
-    if (!text_string.empty()) {
-      String string;
-      for (auto i : text_string) {
-        std::string aux(1, i);
-        Symbol symbol(aux);
-        string.GetString().insert(symbol);
-      }
-      strings.push_back(string);
-    }
-  }
-  return strings;
-}
-
 int main(int argc, char* argv[]) {
   if (CheckParameters(argc, argv)) {
     std::string input_file = argv[1];
     std::string output_file = argv[2];
     std::ofstream output {output_file};
     std::ifstream input {input_file};
-    std::vector<String> strings = ReadFile(input);
-    for (int i = 0; i < strings.size(); ++i) {
-      switch (std::stoi(argv[3])) {
-        case 1: {
-          //std::set<Symbol> alphabet = string.GetAlphabet();
-          for (auto j : strings[i].GetString()) {
-            std::cout << j;
+    while (input) {
+      String my_string{""};
+      std::string text_line;  
+      std::getline(input, text_line);
+      if (!text_line.empty()) {
+        my_string.SetString(text_line);
+        switch (std::stoi(argv[3])) {
+          case 1: {
+            Alphabet alphabet = my_string.CreateAlphabet();
+            output << alphabet << std::endl;
+            break;
           }
-          std::cout << std::endl;
-          //PrintToFile(strings[i].GetString(), output);
-          break;
+          case 2: {
+            int length = my_string.GetLength();
+            output << length << std::endl;
+            break;
+          }
+          case 3: {
+            String inverted_string = my_string.InverseString();
+            output << inverted_string << std::endl;
+            break;
+          }
+          case 4: {
+            Language prefixes = my_string.Prefixes();
+            output << "{";
+            int counter = 0;
+            for (auto i : prefixes.GetLanguage()) {
+              output << i;
+              if (counter != prefixes.LanguageSize() - 1) {
+                output << ", ";
+              }
+              counter++;
+            }
+            output << "}" << std::endl;
+            break;
+          }
+          case 5: {
+            Language suffixes = my_string.Suffixes();
+            suffixes.Write(output);
+            break;
+          }
+          default:
+            std::cout << "La opción elegida no es correcta" << std::endl;
+            return 1;
         }
-        case 2: {
-
-          break;
-        }
-        case 3: {
-
-          break;
-        }
-        case 4: {
-          break;
-        }
-        case 5: {
-
-          break;
-        }
-        default:
-          std::cout << "La opción elegida no es correcta" << std::endl;
-          return 1;
       }
     }
     return 0;
