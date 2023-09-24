@@ -26,7 +26,7 @@ Alphabet::Alphabet(std::set<char> alphabet) {
 }
 
 /** @brief Getter del atributo de la clase Alphabet
-  * @return Devuelve el valor 
+  * @return Devuelve el valor del set atributo de la clase Alphabet
   */
 std::set<char> Alphabet::GetAlphabet() { 
   return alphabet_;
