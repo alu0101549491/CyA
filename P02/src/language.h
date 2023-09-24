@@ -15,6 +15,7 @@
 //
 // Historial de revisiones
 // 24/09/2023 - Creación (primera versión) del código
+// 24/09/2023 - Finalización (última versión) del código
 
 #pragma once
 #include "string.h"
@@ -28,15 +29,3 @@ class Language {
  private:
   std::set<String> language_;
 };
-
-Language::Language(std::set<String> language) {
-  language_ = language; 
-}
-
-int Language::LanguageSize() { 
-  return language_.size(); 
-}
-
-std::set<String> Language::GetLanguage() {
-  return language_;
-}

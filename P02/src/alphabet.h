@@ -14,29 +14,19 @@
 // https://github.com/alu0101549491/CyA/tree/master/P02
 //
 // Historial de revisiones
-// 24/09/2023 - Creación (primera versión) del código
+// 23/09/2023 - Creación (primera versión) del código
+// 24/09/2023 - Finalización (última versión) del código
 
 #pragma once
 #include "string.h"
 
 class Alphabet {
  public:
-  Alphabet(std::set<char> alphabet) { alphabet_ = alphabet; }
-  std::set<char> GetAlphabet() { return alphabet_; }
+  Alphabet(std::set<char> alphabet);
+  std::set<char> GetAlphabet();
   friend std::ostream& operator<<(std::ostream& output, Alphabet alphabet);
  private:
   std::set<char> alphabet_;
 };
 
-std::ostream& operator<<(std::ostream& output, Alphabet alphabet) {
-  std::set<char> my_alphabet_set = alphabet.GetAlphabet();
-  output << "{";
-  for (auto it = my_alphabet_set.begin(); it != my_alphabet_set.end(); ++it) {
-    output << *it;
-    if (std::next(it) != my_alphabet_set.end()) {
-      output << ", ";
-    }
-  }
-  output << "}";
-  return output;
-};
+std::ostream& operator<<(std::ostream& output, Alphabet alphabet);

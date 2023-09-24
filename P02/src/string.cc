@@ -14,6 +14,7 @@
 //
 // Historial de revisiones
 // 21/09/2023 - Creación (primera versión) del código
+// 24/09/2023 - Finalización (última versión) del código
 
 #include "string.h"
 
@@ -73,8 +74,7 @@ String String::InverseString() {
 Language String::Prefixes() {
   std::set<String> prefixes_set;
   String substring{""};
-  //prefixes_set.insert(String("&"));
-  for (int i = 0; i < string_.length(); ++i) {
+  for (unsigned i = 0; i < string_.length(); ++i) {
     substring.Insert(std::string(1,string_[i]));
     prefixes_set.insert(substring);
   }
@@ -92,7 +92,6 @@ Language String::Suffixes() {
     substring.Insert(std::string(1,string_[i]));
     suffixes_set.insert(substring.InverseString());
   }
-  //suffixes_set.insert(String("&"));
   Language suffixes{suffixes_set};
   return suffixes;
 }

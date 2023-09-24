@@ -15,6 +15,7 @@
 //
 // Historial de revisiones
 // 21/09/2023 - Creación (primera versión) del código
+// 24/09/2023 - Finalización (última versión) del código
 
 #pragma once
 #include <iostream>
@@ -24,8 +25,8 @@
 #include <string>
 #include <set>
 #include <unordered_set>
-#include "language.h"
-#include "alphabet.h"
+#include "language.cc"
+#include "alphabet.cc"
 
 class String {
  public:

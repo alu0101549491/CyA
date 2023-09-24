@@ -16,6 +16,7 @@
 //
 // Historial de revisiones
 // 21/09/2023 - Creación (primera versión) del código
+// 24/09/2023 - Finalización (última versión) del código
 
 #include "string.h"
 #include "string.cc"
