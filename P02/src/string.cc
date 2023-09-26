@@ -15,6 +15,7 @@
 // Historial de revisiones
 // 21/09/2023 - Creación (primera versión) del código
 // 24/09/2023 - Finalización (última versión) del código
+// 26/09/2023 - Modificación de la práctica
 
 #include "string.h"
 
@@ -96,6 +97,19 @@ Language String::Suffixes() {
   return suffixes;
 }
 
+String String::Power(int n) {
+  String power{""};
+  if (n == 0) {
+    power.string_ += "&";
+  }
+  else {
+    for (int i = 0; i < n; ++i) {
+      power.string_ += string_;
+    }
+  }
+  return power;
+}
+
 /** @brief Sobrecarga del operador de comparación "<"
   * @param[in] string_1. Primera cadena de la comparación
   * @param[in] string_2. Segunda cadena de la comparación
@@ -111,7 +125,7 @@ bool operator<(String string_1, String string_2) {
   * @return Devuelve el valor booleano de la comparación
   */
 bool operator==(String string_1, String string_2) {
-  return string_1.GetString().length() == string_2.GetString().length();
+  return string_1.GetString() == string_2.GetString();
 }
 
 /** @brief Sobrecarga del operador de inserción

@@ -16,6 +16,7 @@
 // Historial de revisiones
 // 21/09/2023 - Creación (primera versión) del código
 // 24/09/2023 - Finalización (última versión) del código
+// 26/09/2023 - Modificación de la práctica
 
 #pragma once
 #include <iostream>
@@ -38,6 +39,7 @@ class String {
   String InverseString();
   Language Prefixes();
   Language Suffixes();
+  String Power(int n);
   friend bool operator<(String string_1, String string_2);
   friend bool operator==(String string_1, String string_2);
   friend std::ifstream& operator>>(std::ifstream& input, String string);

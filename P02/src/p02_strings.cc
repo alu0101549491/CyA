@@ -17,6 +17,7 @@
 // Historial de revisiones
 // 21/09/2023 - Creación (primera versión) del código
 // 24/09/2023 - Finalización (última versión) del código
+// 26/09/2023 - Modificación de la práctica
 
 #include "string.h"
 #include "string.cc"
@@ -53,7 +54,6 @@ bool CheckParameters(const int& argc, char* argv[]) {
   else {
     std::ifstream input{std::string{argv[1]}};
     std::ofstream output{std::string{argv[2]}};
-    std::string opcode = argv[3];
     if (input.fail() || output.fail()) {
       std::cout << "No se ha encontrado el fichero introducido" << std::endl;
       return false;
@@ -92,6 +92,11 @@ int main(int argc, char* argv[]) {
   if (CheckParameters(argc, argv)) {
     std::ifstream input{std::string(argv[1])};
     std::ofstream output{std::string(argv[2])};
+    int n = 0;
+    if ((std::stoi(argv[3])) == 6) {
+      std::cout << "Introduce el valor de n para la potencia: ";
+      std::cin >> n;
+    }
     while (input) {
       std::string text_line;  
       std::getline(input, text_line);
@@ -121,6 +126,11 @@ int main(int argc, char* argv[]) {
           case 5: {
             Language suffixes = my_string.Suffixes();
             WriteLanguage(output, suffixes);
+            break;
+          }
+          case 6: {
+            String power = my_string.Power(n);
+            output << power << std::endl;
             break;
           }
           default:
