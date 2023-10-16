@@ -69,6 +69,26 @@ bool CheckParameters(const int& argc, char* argv[]) {
   }
 }
 
+/** @brief Revisa que si los simbolos de una cadena pertenecen al alfabeto dado
+  * @param[in] string. Cadena a revisar
+  * @param[in] alphabet. Alfabeto dado
+  * @return Valor booleano que determina si la cadena pertenece o no al alfabeto
+  */
+bool CheckAlphabet(std::string string, Alphabet alphabet) {
+  unsigned counter = 0;
+  for (auto i : string) {
+    for (auto j : alphabet.GetSet()) {
+      if (i == j) {
+        counter++;
+      }
+    }
+  }
+  if (counter == string.length()) {
+    return true;
+  }
+  return false;
+}
+
 /** @brief Main function
  *  @param[in] argc Number of command line parameters
  *  @param[in] argv Vector containing (char*) the parameters
@@ -83,12 +103,17 @@ int main(int argc, char* argv[]) {
       std::string text_line;
       std::getline(strings_file, text_line);
       if (!text_line.empty()) {
-        //text_line.erase(text_line.rfind('\r'));
-        if (NFA.ProcessStrings(text_line)) {
-          std::cout << text_line << " --- Accepted" << std::endl;
+        if (CheckAlphabet(text_line, NFA.GetAlphabet())) {
+          //text_line.erase(text_line.rfind('\r'));
+          if (NFA.ProcessStrings(text_line)) {
+            std::cout << text_line << " --- Accepted" << std::endl;
+          }
+          else {
+            std::cout << text_line << " --- Rejected" << std::endl;
+          }
         }
         else {
-          std::cout << text_line << " --- Rejected" << std::endl;
+          std::cout << "La cadena " << text_line << " no pertenece al alfabeto dado" << std::endl;
         }
       }
     }

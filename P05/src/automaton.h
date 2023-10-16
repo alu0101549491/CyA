@@ -31,6 +31,7 @@ class Automaton {
  public:
   Automaton(std::ifstream& input_file);
   std::vector<State> GetActualStates() { return actual_states_; }
+  Alphabet GetAlphabet() { return alphabet_; }
   void Print();
   bool CheckIfFinalState(const std::vector<State>& states);
   void UpdateActualStates(std::vector<State>& actual_states, const char& character);

@@ -33,6 +33,7 @@ Automaton::Automaton(std::ifstream& input_file) {
         case 0: {
           char value;
           std::stringstream splitted_line(text_line);
+          alphabet_.Insert('&');
           while (splitted_line >> value) {
             alphabet_.Insert(value);
           }
