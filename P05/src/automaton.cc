@@ -110,6 +110,25 @@ bool Automaton::CheckIfFinalState(const std::vector<State>& states) {
   return false;
 }
 
+/** @brief Función complementaria del método UpdateActualStates que revisa si a los estados
+ *         actuales les queda alguna épsilon-transición que procesar
+ *  @param[in] states. Conjunto de estados
+ *  @return "true" si states le quedan épsilon-transiciones y "false" en caso contrario
+ */
+bool CheckIfEpsilonTransitions(const std::vector<State>& states) {
+  for (auto state : states) {
+    std::multimap<std::string, int> transitions = state.GetTransitions();
+    if (!transitions.empty()) {
+      for (auto transition : transitions) {
+        if (transition.first == "&") {
+          return true;
+        }
+      }
+    }
+  }
+  return false;
+}
+
 /** @brief Actualiza el conjunto de estados actuales suministrados via parámetro por referencia
  *         realizando las transiciones desde el conjunto de estados actuales hacia nuevos estados
  *         posibles por el símbolo dado
@@ -133,6 +152,9 @@ void Automaton::UpdateActualStates(std::vector<State>& actual_states, const char
       }
     }
   }
+  if (character == '&' && CheckIfEpsilonTransitions(actual_states)) {
+    UpdateActualStates(actual_states, character);
+  }
 }
 
 /** @brief LLama a UpdateActualStates pero con el símbolo '&' */
@@ -147,12 +169,15 @@ void Automaton::EpsilonClosure(std::vector<State>& actual_states) {
  */
 bool Automaton::ProcessStrings(const std::string& string) {
   std::vector<State> actual_states = GetActualStates();
+  int counter = 0;
   for (auto character : string) {
+    if (counter == 0) {
+      EpsilonClosure(actual_states);
+    }
     if (character == '&') {
       return CheckIfFinalState(actual_states);
     }
     else {
-      EpsilonClosure(actual_states);
       if (actual_states.empty()) {
         return false;
       }
@@ -160,6 +185,8 @@ bool Automaton::ProcessStrings(const std::string& string) {
         UpdateActualStates(actual_states, character);
       }
     }
+    counter++;
+    EpsilonClosure(actual_states);
   }
   return CheckIfFinalState(actual_states);
 } 

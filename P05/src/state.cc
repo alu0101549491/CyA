@@ -20,6 +20,7 @@
 
 /** @brief Constructor de la clase State al que se le pasa una serie de propiedades
  *         cuyo orden viene dado por la sintaxis aceptada en los ficheros .fa por defecto
+ *         adaptado para ser utilizado por el constructor de la clase Automaton
  *  @param[in] properties. Vector que contiene todas las propiedades del estado
  */
 State::State(std::vector<std::string> properties) {

@@ -20,6 +20,7 @@
 
 class Alphabet {
  public:
+  std::set<char> GetAlphabet() { return alphabet_; }
   void Insert(char symbol) { alphabet_.insert(symbol); }
   friend std::ostream& operator<<(std::ostream& out, const Alphabet& alphabet);
  private:
