@@ -1,0 +1,19 @@
+El fichero input.fa se trataría de un fichero de texto que contendrá la información del
+NFA que este programa va a procesar y debería tener el siguiente formato:
+
+0 1
+4
+0
+0 0 2 0 2 1 1
+1 1 2 0 1 1 1
+2 0 2 0 1 1 3
+3 0 2 0 2 1 3
+
+El fichero input.txt contendrá las cadenas que se desea que procese el NFA para comprobar
+si son cadenas aceptadas por el lenguaje que reconoce este NFA o si por lo contrario son
+rechazadas por el mismo. Debería tener el siguiente formato:
+
+cadena1
+cadena2
+cadena3
+...
