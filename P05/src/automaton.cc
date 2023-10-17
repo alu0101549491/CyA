@@ -68,7 +68,7 @@ Automaton::Automaton(std::ifstream& input_file) {
       initial_state_ = i;
     }
     if (i.GetFinal() == 1) {
-      final_states_.push_back(i);
+      final_states_.insert(i);
     }
   }
   actual_states_.push_back(initial_state_);

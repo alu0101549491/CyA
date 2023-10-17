@@ -42,7 +42,7 @@ class Automaton {
   int number_of_states_;
   std::set<State> states_;
   State initial_state_;
-  std::vector<State> final_states_;
+  std::set<State> final_states_;
   std::vector<State> actual_states_;
 };
 
