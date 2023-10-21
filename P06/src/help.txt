@@ -1,0 +1,14 @@
+
+El fichero input.nfa se trataría de un fichero de texto que contendrá la información del
+NFA que este programa va a procesar y debería tener el siguiente formato:
+
+0 1
+4
+0
+0 0 2 0 2 1 1
+1 1 2 0 1 1 1
+2 0 2 0 1 1 3
+3 0 2 0 2 1 3
+
+El fichero output.dfa contendrá el NFA dado convertido en un DFA con el mismo formato de
+impresión que el dado en el input.
