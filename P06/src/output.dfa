@@ -1,15 +1,8 @@
 0 1 
-12
+5
 A
-A 1 2 0 B 1 C 
+A 0 2 0 B 1 C 
 B 0 2 0 D 1 E 
-C 0 2 0 F 1 E 
-D 0 2 0 G 1 H 
-E 0 2 0 I 1 J 
-F 0 2 0 K 1 J 
-G 0 2 0 L 1 L 
-H 0 2 0 L 1 L 
-I 0 2 0 L 1 J 
-J 0 2 0 J 1 J 
-K 0 2 0 L 1 L 
-L 1 2 0 B 1 C 
+C 0 2 0 C 1 C 
+D 0 2 0 D 1 E 
+E 1 2 0 D 1 E 
