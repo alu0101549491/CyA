@@ -1,0 +1,45 @@
+
+El fichero input.gra se trataría de un fichero de texto que contendrá la información de
+la gramática que este programa va a procesar y debería tener el siguiente formato:
+
+3
+a
+b
+c
+3
+S
+X
+Y
+13
+S aXbX
+S abX
+S aXb
+S ab
+X aY
+X bY
+X a
+X b
+Y aY
+Y bY
+Y a
+Y b
+Y c
+
+El fichero output.gra contendrá la gramática dada convertido en una gramática en Forma
+Normal de Chomsky con el mismo formato de impresión que el dado en el input.gra.
+
+ ===== ACLARACIONES =====
+
+ Por como está diseñado el programa se tendrá que tener en cuenta las siguientes indicaciones:
+
+  - Poner en primer lugar el número de terminales que tendrá el programa, seguido de esto, los 
+    terminales puestos de uno en uno por cada linea del fichero de texto, estos terminales tendrán 
+    que ser letras del alfabeto latino en minúscula según indica el convenio de notación de gramáticas.
+
+  - Seguido de los terminales, irá el número de no-terminales, puestos de la misma forma que los terminales,
+    solo que los no-terminales deberán ser letras del alfabeto latino en mayúscula según indica el convenio
+    de notación de gramáticas.
+
+  - Por último, irá el número de producciones que tiene la gramática, cada una separada por lineas y puestas
+    de manera que al principio de la linea irá el no-terminal al que pertenece dicha produccion, una separación
+    por espacio, y finalmente la produccion de ese no-terminal.
