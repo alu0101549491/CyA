@@ -176,7 +176,7 @@ int main(int argc, char* argv[]) {
       //standard_grammar.Print();
       if (!standard_grammar.CheckIfEmptyProductions() && !standard_grammar.CheckIfUnitaryProductions()) {
         standard_grammar.ConvertToCNF();
-        standard_grammar.Print();
+        //standard_grammar.Print();
         output_file << standard_grammar;
         return 0;
       }

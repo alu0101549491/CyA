@@ -99,7 +99,7 @@ void Grammar::Print() {
   */ 
 bool Grammar::CheckIfEmptyProductions() {
   for (auto& production : productions_) {
-    if (production.second == "&") {
+    if (production.second == "&" && production.first != initial_) {
       std::cout << "La gramática suministrada contiene producciones vacías" << std::endl;
       return true;
     }
@@ -142,6 +142,9 @@ void Grammar::ChangeNonTerminalSymbol(char& symbol) {
 void Grammar::ConvertToCNF() {
   char aux_char;
   auto it = --non_terminals_.end();
+  if (*it == initial_) {
+    --it;
+  }
   aux_char = (*it)[0] + 1;
   std::map<char, char> aux_non_terms;
   for (auto& symbol : terminals_.GetSet()) {
