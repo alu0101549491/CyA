@@ -17,8 +17,8 @@
 // 07/11/2023 - Creación (primera versión) del código
 // 08/11/2023 - Finalización (última versión) del código
 
-
 #include "turing_machine.h"
+#include "turing_machine.cc"
 
 /** @brief Imprime en pantalla una breve guía y explicación sobre el funcionamiento del programa */
 void Help() {

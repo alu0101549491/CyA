@@ -10,7 +10,7 @@
 // Archivo alphabet.h: programa cliente.
 // Contiene la clase Alphabet y la declaración de las funciones del programa
 // Referencias:
-// https://github.com/alu0101549491/CyA/tree/master/P07
+// https://github.com/alu0101549491/CyA/tree/master/P09
 //
 // Historial de revisiones
 // 07/11/2023 - Creación (primera versión) del código
