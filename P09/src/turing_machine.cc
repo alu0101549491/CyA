@@ -200,10 +200,18 @@ bool TuringMachine::ProcessTape() {
     }
     tape[head_position] = std::get<1>(new_instruction);
     if (std::get<2>(new_instruction) == 'R') {
+      if (tape[head_position] == '$' && head_position == tape.length() - 1) {
+        tape += '$';
+      }
       head_position += 1;
     }
     else if (std::get<2>(new_instruction) == 'L') {
-      head_position -= 1;
+      if (tape[head_position] == '$' && head_position == 0) {
+        tape = '$' + tape;
+      }
+      else {
+        head_position -= 1;
+      }
     }
     else if (std::get<2>(new_instruction) == 'S') {
       head_position += 0;
