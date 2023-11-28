@@ -1,0 +1,4 @@
+graph testing {
+    a -- b;
+    b -- d;
+}
