@@ -50,6 +50,7 @@ inline void point_set::EMST(void) {
     }
   }
   emst_ = subtree_forest[0].GetArcs();
+  CalculateMinAndMax();
 }
 
 /** @brief Método que se encarga de computar un vector de arcos entrante
@@ -137,9 +138,12 @@ double point_set::EuclideanDistance(const Kruskal::arc& arc) const {
  *  @param[in] outstream. Flujo de salida
  */
 void point_set::Write(std::ostream& outstream) const {
+  outstream << "POINTS: " << std::endl;
   for (auto& i : (*this)) {
     outstream << i << std::endl;
   }
+  outstream << std::setprecision(2) << "\nMIN value: " << min_ << std::endl;
+  outstream << std::setprecision(2) << "\nMAX value: " << max_ << std::endl;
 }
 
 /** @brief Método que se encarga de imprimir el EMST.
@@ -176,4 +180,20 @@ void point_set::MakeADot() const {
     outstream << "\t" << origin << " -- " << destination << std::endl;
   }
   outstream << "}" << std::endl;
+}
+
+void point_set::CalculateMinAndMax() {
+  double aux_min = GetCost();
+  double aux_max = 0;
+  for (auto& arc : emst_) {
+    double value = EuclideanDistance(arc);
+    if (value > aux_max) {
+      aux_max = value;
+    }
+    if (value < aux_min) {
+      aux_min = value;
+    }
+  }
+  min_ = aux_min;
+  max_ = aux_max;
 }

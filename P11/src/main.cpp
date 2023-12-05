@@ -178,6 +178,7 @@ int main(int argc, char* argv[]) {
     }
     Kruskal::point_vector input_points = ReadFile(input_file);
     point_set future_tree{input_points};
+    future_tree.Write(std::cout);
     future_tree.WriteTree(output_txt);
     future_tree.MakeADot();
     return 0;

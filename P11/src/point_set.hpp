@@ -37,11 +37,16 @@ class point_set : public Kruskal::point_vector {
 	void WriteTree(std::ostream &outstream) const;
 	void Write(std::ostream &outstream) const;
 	void MakeADot() const;
+	double GetMin() const { return min_; }
+	double GetMax() const { return max_; }
+	void CalculateMinAndMax();
 	inline const Kruskal::tree& GetTree(void) const { return emst_; }
 	inline const Kruskal::point_vector& GetPoints(void) const { return *this; }
 	inline const double GetCost(void) const { return ComputeCost(); }
  private:
 	Kruskal::tree emst_;
+	double min_;
+	double max_;
 	void ComputeArcVector(Kruskal::arc_vector &vector_of_arcs) const;
 	void FindIncidentSubtrees(const forest& subtree_forest, const Kruskal::arc &arc, int& id_i, int& id_j) const;
 	void MergeSubtrees(forest& subtree_forest, const Kruskal::weigthed_arc &arc, int id_i, int id_j) const;
