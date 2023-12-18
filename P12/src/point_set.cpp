@@ -2,45 +2,131 @@
 
 using namespace ConvexHull;
 
-point_set::point_set(const std::vector<point> &points) {
-	hull_ = points;
+/** @brief Función que se encarga de imprimir un punto
+ *  @param[in] outstream. Flujo de salida
+ *  @param[in] point. Punto a imprimir
+ *  @return Retorna el flujo de salida
+ */
+std::ostream& ConvexHull::WritePoint(std::ostream& outstream, const point& point) {
+	outstream << "(" << std::setw(3) << std::fixed << std::setprecision(0) << point.first << ", ";
+	outstream << std::setw(3) << std::fixed << std::setprecision(0) << point.second << ")" << std::endl;
+	return outstream;
 }
 
-void point_set::quickHull(void) {
+/** @brief Constructor de la clase point_set
+ *  @param[in] points. Vector de puntos para pasarle a la herencia de vector de puntos de la clase
+ */
+point_set::point_set(const std::vector<point> &points) {
+	for (auto& point : points) {
+		push_back(point);
+	}
+	QuickHull();
+}
+
+/** @brief Método que se encarga de imprimir la envoltura convexa
+ *  @param[in] outstream. Flujo de salida
+ */
+void point_set::WriteHull(std::ostream &outstream) const {
+	for (auto& point : hull_) {
+		WritePoint(outstream, point);
+	}
+}
+
+/** @brief Método que se encarga de imprimir los puntos de point_set
+ *  @param[in] outstream. Flujo de salida
+ */
+void point_set::Write(std::ostream &outstream) const {
+	for (auto& point : (*this)) {
+		WritePoint(outstream, point);
+	}
+}
+
+/** @brief Método que se encarga de imprimir los datos de point_set en un fichero tipo .dot
+ *  @param[in] outstream. Flujo de salida
+ */
+void point_set::MakeADot(std::ostream &outstream) const {
+	int point_name = 0;
+  std::map<int, point> points_map;
+	outstream << "graph {" << std::endl;
+	for (auto& p : hull_) {
+		outstream << "\t" << point_name << " [pos=\"" << p.first << "," << p.second << "!\"]" << std::endl;
+		points_map.insert(std::pair<int, point>(point_name, p));
+		point_name++;
+	}
+	for (auto& line : lines_) {
+		int origin, destination;
+		for (auto& pair : points_map) {
+			if (pair.second == line.first) origin = pair.first;
+			if (pair.second == line.second) destination = pair.first;
+		}
+		outstream << "\t" << origin << " -- " << destination << std::endl;
+	}
+	outstream << "}" << std::endl;
+}
+
+/** @brief Método que se encarga de inicializar la búsqueda de la envoltura convexa recursivamente */
+void point_set::QuickHull(void) {
 	hull_.clear();
+	point min_x_point, max_x_point; 
+	XBounds(min_x_point, max_x_point);
 
-	point min_x_point; 
-	point max_x_point;
+	QuickHull(line(min_x_point, max_x_point), side::LEFT);
+	QuickHull(line(min_x_point, max_x_point), side::RIGHT);
 
-	x_bounds(min_x_point, max_x_point);
-
-	quickHull(line(min_x_point, max_x_point), side::LEFT);
-	quickHull(line(min_x_point, max_x_point), side::RIGHT);
-
-	// Remove duplicates
 	std::sort(hull_.begin(), hull_.end());
 	hull_.erase(std::unique(hull_.begin(), hull_.end()), hull_.end());
 }
 
-void point_set::quickHull(const line &my_line, int side) {
+/** @brief Método que se encarga de realizar la búsqueda de el punto más lejano a una linea en cierto lado 
+ *  @param[in] my_line. Linea desde la cual se va a buscar el punto más lejano a un lado determinado.
+ *  @param[in] side. Lado determinado
+ */
+void point_set::QuickHull(const line &my_line, int side) {
 	point farthest;
-	if (farthest_point(my_line, side, farthest)) {
-		quickHull(line(my_line.first, farthest), -find_side(line(my_line.first, farthest), my_line.second));
-		quickHull(line(farthest, my_line.second), -find_side(line(farthest, my_line.second), my_line.first));
+	if (FarthestPoint(my_line, side, farthest)) {
+		QuickHull(line(my_line.first, farthest), -FindSide(line(my_line.first, farthest), my_line.second));
+		QuickHull(line(farthest, my_line.second), -FindSide(line(farthest, my_line.second), my_line.first));
 	}
 	else {
 		hull_.push_back(my_line.first);
 		hull_.push_back(my_line.second);
+		lines_.push_back(my_line);
 	}
 }
 
-bool point_set::farthest_point(const line &my_line, int side, point &farthest) const {
+/** @brief Método que calcula la distancia entre una linea y un punto
+ *  @param[in] my_line. Linea dada.
+ *  @param[in] my_point. Punto dado.
+ *  @return Valor de la distancia
+ */
+double point_set::Point2Line(const line &my_line, const point &my_point) const {
+	const point &p1 = my_line.first;
+	const point &p2 = my_line.second;
+	return (my_point.second - p1.second) * (p2.first - p1.first) - (p2.second - p1.second) * (my_point.first - p1.first);
+}
+
+/** @brief Método que calcula la distancia entre una linea y un punto en valor absoluto
+ *  @param[in] my_line. Linea dada.
+ *  @param[in] my_point. Punto dado.
+ *  @return Valor de la distancia en valor absoluto.
+ */
+double point_set::Distance(const line &my_line, const point &my_point) const {
+	return fabs(Point2Line(my_line, my_point));
+}
+
+/** @brief Método que revisa si existe un punto considerado como el más lejano de una linea en cierto dado
+ *  @param[in] my_line. Linea dada.
+ *  @param[in] side. Lado dado.
+ *  @param[in] farthest. En caso de que existiese se guarda el punto aqui.
+ *  @return Si existe devuelve true, sino devuelve false.
+ */
+bool point_set::FarthestPoint(const line &my_line, int side, point &farthest) const {
 	farthest = point_vector::at(0);
 	double max_dist = 0;
 	bool found = false;
 	for (const point &vec_point : *this) {
-		const double dist = distance(my_line, vec_point);
-		if (find_side(my_line, vec_point) == side && dist > max_dist) {
+		const double dist = Distance(my_line, vec_point);
+		if (FindSide(my_line, vec_point) == side && dist > max_dist) {
 			farthest = vec_point;
 			max_dist = dist;
 			found = true;
@@ -49,18 +135,25 @@ bool point_set::farthest_point(const line &my_line, int side, point &farthest) c
 	return found;
 }
 
-double point_set::distance(const line &my_line, const point &my_point) const {
-
+/** @brief Método que encuentra a que lado está un punto de una linea
+ *  @param[in] my_line. Linea dada.
+ *  @param[in] my_point. Punto dado.
+ *  @return Valor del lado en la enumeracion del namespace ConvexHull.
+ */
+int point_set::FindSide(const line &my_line, const point &my_point) const {
+	if (Point2Line(my_line, my_point) > 0) return side::RIGHT;
+	if (Point2Line(my_line, my_point) < 0) return side::LEFT;
+	else return side::CENTER;
 }
 
-int point_set::find_side(const line &my_line, const point &my_point) const {
-
-}
-
-void point_set::x_bounds(point &min_x, point &max_x) const {
-	min_x = std::pair<double, double>(INT32_MAX,INT32_MAX);
-	max_x = std::pair<double, double>(0,0);
-	for (int i = 0; i < (*this).size(); ++i) {
+/** @brief Método que encuentra inicialmente los puntos más alejados entre si
+ *  @param[in] min_x. Aquí se devolverá el punto mínimo.
+ *  @param[in] max_x. Aquí se devolverá el punto máximo.
+ */
+void point_set::XBounds(point &min_x, point &max_x) const {
+	min_x = std::make_pair(INT32_MAX, INT32_MAX);
+	max_x = std::make_pair(0.0,0.0);
+	for (unsigned i = 0; i < (*this).size(); ++i) {
 		if ((*this)[i].first < min_x.first || (*this)[i].second < min_x.second) {
 			min_x = (*this)[i];
 		}
@@ -68,8 +161,4 @@ void point_set::x_bounds(point &min_x, point &max_x) const {
 			max_x = (*this)[i];
 		}
 	}
-}
-
-double point_set::point_2_line(const line &my_line, const point &my_point) const {
-
 }

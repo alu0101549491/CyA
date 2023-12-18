@@ -3,18 +3,18 @@
 // Grado en Ingeniería Informática
 // Asignatura: Computabilidad y Algoritmia
 // Curso: 2º
-// Práctica 11: Algoritmos Voraces (Greedy). Euclidean Minimum Spanning Tree
+// Práctica 12: Algoritmos Divide y Vencerás (Divide & Conquer). Cálculo de la envoltura convexa
 // Autor: Fabián González Lence
 // Correo: alu0101549491@ull.edu.es
-// Fecha: 05/12/2023
+// Fecha: 19/12/2023
 // Archivo main.cpp: programa cliente.
 // Contiene la función main del proyecto
 // Referencias:
-// https://github.com/alu0101549491/CyA/tree/master/P11
+// https://github.com/alu0101549491/CyA/tree/master/P12
 //
 // Historial de revisiones
-// 01/12/2023 - Creación (primera versión) del código
-// 04/12/2023 - Finalización (última versión) del código
+// 12/12/2023 - Creación (primera versión) del código
+// 18/12/2023 - Finalización (última versión) del código
 
 #include <fstream>
 #include <iostream>
@@ -104,8 +104,8 @@ bool CheckFile(std::ifstream& input_file) {
   * @return Valor booleano que determina si el parámetro que se le pasó al programa es correcto y se puede proseguir
   */
 bool CheckParameters(const int& argc, char* argv[]) {
-  if (argc < 2 || argc > 2) {
-    std::cout << "Modo de empleo: ./greedy input.txt" << std::endl;
+  if (argc < 2 || argc > 3) {
+    std::cout << "Modo de empleo: ./quickhull [-d] input.txt" << std::endl;
     return false;
   }
   else {
@@ -165,7 +165,7 @@ ConvexHull::point_vector ReadFile(std::ifstream& input_file) {
 int main(int argc, char* argv[]) {
 	if (CheckParameters(argc, argv)) { 
     std::ifstream input_file;
-    std::ofstream output_txt{"output.txt"};
+    std::ofstream output_file{"../output.txt"};
     if (dot_activated) {
       input_file = std::ifstream{argv[2]};
     }
@@ -174,7 +174,11 @@ int main(int argc, char* argv[]) {
     }
     ConvexHull::point_vector vector = ReadFile(input_file);
     ConvexHull::point_set myset{vector};
-    std::cout << "se leyó perfe\n";
+    myset.WriteHull(output_file);
+    if (dot_activated) {
+      std::ofstream output_dot{"../output.dot"};
+      myset.MakeADot(output_dot);
+    }
     return 0;
   }
   return 1;
