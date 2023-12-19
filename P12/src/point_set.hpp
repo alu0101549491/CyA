@@ -54,6 +54,7 @@ namespace ConvexHull {
 		inline const point_vector& GetPoints(void) const { return *this; }
 		double Point2Line(const line &my_line, const point &my_point) const;
 
+		double BiggestDistance(point& point1, point& point2);
 	 private:
 		point_vector hull_;
 		line_vector lines_;

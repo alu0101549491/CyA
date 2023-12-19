@@ -9,6 +9,7 @@
 // Fecha: 19/12/2023
 // Archivo main.cpp: programa cliente.
 // Contiene la función main del proyecto
+// neato ejemplo.dot -Tpdf -o salida.pdf
 // Referencias:
 // https://github.com/alu0101549491/CyA/tree/master/P12
 //
@@ -179,6 +180,12 @@ int main(int argc, char* argv[]) {
       std::ofstream output_dot{"../output.dot"};
       myset.MakeADot(output_dot);
     }
+    ConvexHull::point point1, point2;
+    double biggest_distance = myset.BiggestDistance(point1, point2);
+    std::cout << "The biggest distance in the convex hull is: " << biggest_distance << std::endl;
+    std::cout << "Between the points: " << std::endl;
+    ConvexHull::WritePoint(std::cout, point1);
+    ConvexHull::WritePoint(std::cout, point2);
     return 0;
   }
   return 1;

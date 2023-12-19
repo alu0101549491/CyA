@@ -59,7 +59,7 @@ void point_set::MakeADot(std::ostream &outstream) const {
 			if (pair.second == line.first) origin = pair.first;
 			if (pair.second == line.second) destination = pair.first;
 		}
-		outstream << "\t" << origin << " -- " << destination << std::endl;
+		outstream << "\t" << origin << " -- " << destination << " [color=purple];" << std::endl;
 	}
 	outstream << "}" << std::endl;
 }
@@ -161,4 +161,18 @@ void point_set::XBounds(point &min_x, point &max_x) const {
 			max_x = (*this)[i];
 		}
 	}
+}
+
+double point_set::BiggestDistance(point& point1, point& point2) {
+	double distance = 0.0;
+	for (unsigned i = 0; i < hull_.size() - 1; ++i) {
+		unsigned j = i + 1;
+		double aux_distance = sqrt(pow(hull_[j].first - hull_[i].first, 2) + pow(hull_[j].second - hull_[i].second, 2));
+		if (aux_distance > distance) {
+			distance = aux_distance;
+			point1 = hull_[i];
+			point2 = hull_[j];
+		}
+	}
+	return distance;
 }
